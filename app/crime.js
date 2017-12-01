@@ -13,7 +13,7 @@ router.get('/fetch/:city', function(req, res, next){
 
     // Get the leaderName(s) of the given citys
     // if you do not bind any city, it returns 10 random leaderNames
-    var query = "SELECT * FROM <http://dbpedia.org> WHERE {?city <http://dbpedia.org/property/leaderName> ?leaderName} LIMIT 10";
+    var query = "SELECT * WHERE {?city <http://dbpedia.org/property/leaderName> ?leaderName} LIMIT 10";
     var client = new SparqlClient(endpoint);
     console.log("Query to " + endpoint);
     console.log("Query: " + query);
