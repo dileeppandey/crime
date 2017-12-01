@@ -1,0 +1,50 @@
+<html ng-app="app">
+	<title>Weather App</title>
+	<head>
+		<!-- Libraries -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+		
+		<script src="app.js"></script>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon"> 
+
+		<style>
+			body  {
+			    /* background-image: url("img/bg.jpg"); */
+			    background-color: #cccccc;
+			    background-size: 100% 100%;
+			}
+		</style>
+	</head>
+	
+	<body ng-controller = 'weatherController'>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-md-center" style="background-color: #e3f2fd;">
+		  <a class="navbar-brand" href="#">Weather App!</a>
+	    </nav>
+
+	    <div class="alert alert-danger" role="alert" ng-show="isError">
+ 			{{errorMsg}}
+		</div>
+
+	    <div class="container-fluid mt-5">
+	    	<div class="row justify-content-md-center">
+	     <form class="form-inline my-2 my-lg-0" ng-submit='add()'>
+		      <input class="form-control mr-sm-2" type="search" placeholder="Enter City Name" aria-label="Search" ng-model="cityName" ng-pattern="word">
+		      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Enter</button>
+	    </form>
+	</div>
+
+	<div>
+		{{output}}
+	</div>
+
+	</body>
+
+</html>
