@@ -1,0 +1,28 @@
+<style>
+    .col-centered {
+        margin: 0 auto;
+        float: none;
+    }
+    #search {
+        width: 100%;
+        height: 60px;
+        padding: 0px 0px 0px 16px;
+        font-size: 2em;
+        margin-top: 60px;
+    }
+</style>
+<!-- <div id="search-box" class="col-lg-8 col-md-8 col-sm-8 col-centered">
+    <input type="search" autocomplete="off" name="search" id="search" placeholder="Search Location" />
+</div> -->
+
+<div class='col-lg-8 col-md-8 col-sm-8 col-centered' id="search-box" ng-controller="TypeaheadCtrl">
+
+    <!-- <pre>Search Loaction {{asyncSelected | json}}</pre> -->
+    <input type="text" ng-model="asyncSelected" placeholder="Search Location" uib-typeahead="address for address in getLocation($viewValue)"
+        typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" id="search">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+    <div ng-show="noResults">
+        <i class="glyphicon glyphicon-remove"></i> No Results Found
+    </div>
+
+</div>
