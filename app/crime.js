@@ -187,7 +187,7 @@ router.get('/federalExpenses/:statename', function(req, res, next){
 
     for(var element of results.results.bindings) {
         var json = {
-            "state" : stateName.charAt(0).toUpperCase() + stateName.slice(1),
+            "state" : stateName.charAt(0).toUpperCase() + stateName.slice(1).toLowerCase(),
             "federalExpenses": {
                 "AmericanIndianEducation" : element.AmericanIndianEducation.value,
                 "AssistanceInFederallyAffectedAreas" : element.AssistanceInFederallyAffectedAreas.value,
