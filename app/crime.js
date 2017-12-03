@@ -146,7 +146,7 @@ router.get('/federalExpenses/:statename', function(req, res, next){
     "?EnglishLanguageAcquisition ?GrantsForDisadvantaged ?RehabilitationServices ?SpecialEducation ?StudentFinancialAssistance ?TechnicalAdultEducation" +
     "WHERE {" +
      "?state <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12/crime#State> ." +
-      "?state <http://org.semweb/group12#name> '"+stateName+"' ." +
+      "?state <http://org.semweb/group12#name> ?statename ." +
       "?state <http://org.semweb/group12#has> ?has ." +
       "?state <http://org.semweb/group12#has> ?has1 ." +
        "?state <http://org.semweb/group12#has> ?has2 ." +
@@ -174,6 +174,7 @@ router.get('/federalExpenses/:statename', function(req, res, next){
       "?has7 <http://org.semweb/group12#count> ?StudentFinancialAssistance ." +
       "?has8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#TechnicalAdultEducation> ." +
       "?has8 <http://org.semweb/group12#count> ?TechnicalAdultEducation ." +
+      "FILTER (lcase(?statename) = '"+stateName.toLowerCase()+"')"+
     "}";
 
     var client = new SparqlClient(endpoint);
@@ -186,7 +187,7 @@ router.get('/federalExpenses/:statename', function(req, res, next){
 
     for(var element of results.results.bindings) {
         var json = {
-            "state" : stateName,
+            "state" : stateName.charAt(0).toUpperCase() + stateName.slice(1),
             "federalExpenses": {
                 "AmericanIndianEducation" : element.AmericanIndianEducation.value,
                 "AssistanceInFederallyAffectedAreas" : element.AssistanceInFederallyAffectedAreas.value,
@@ -219,8 +220,8 @@ router.get('/crimeData/:city/:state', function(req, res, next){
                " WHERE {"+
                  "?state <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12/crime#State> ."+
                   "?state <http://org.semweb/group12#has> ?city."+
-                  "?state <http://org.semweb/group12#name> '"+stateName+"' ."+
-                  "?city <http://org.semweb/group12#name> '"+cityName+"'."+
+                  "?state <http://org.semweb/group12#name> ?statename ."+
+                  "?city <http://org.semweb/group12#name> ?cityname."+
                   "?city <http://org.semweb/group12#has> ?has ."+
                   "?city <http://org.semweb/group12#has> ?has1 ."+
                   "?city <http://org.semweb/group12#has> ?has2 ."+
@@ -248,6 +249,8 @@ router.get('/crimeData/:city/:state', function(req, res, next){
                   "?has7 <http://org.semweb/group12#count> ?Rape."+
                   "?has8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#Robbery> ."+
                   "?has8 <http://org.semweb/group12#count> ?Robbery."+
+                  "FILTER (lcase(?statename) = '"+stateName.toLowerCase()+"')"+
+                  "FILTER (lcase(?cityname) = '"+cityName.toLowerCase()+"')"+
                 "}";
 
     var client = new SparqlClient(endpoint);
@@ -274,7 +277,6 @@ router.get('/crimeData/:city/:state', function(req, res, next){
         };
         outputJson.push(json);
     }
-
     res.json(outputJson);
 
 });
