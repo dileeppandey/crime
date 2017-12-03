@@ -1,0 +1,43 @@
+req - http://localhost:3000/federalExpenses/ArizoNA
+resp:
+{
+	"state": "ArizoNA",
+		"federalExpenses": {
+		"AmericanIndianEducation": "10,235 ",
+		"AssistanceInFederallyAffectedAreas": "149,281 ",
+		"BlockGrantForSchoolImprovement": "75,805 ",
+		"EnglishLanguageAcquisition": "14,128 ",
+		"GrantsForDisadvantaged": "342,030 ",
+		"RehabilitationServices": "65,364 ",
+		"SpecialEducation": "203,193 ",
+		"StudentFinancialAssistance": "1,312,501 "
+	}
+}
+
+
+req - http://localhost:3000/crimeData/tempe/arizona
+res:
+
+{
+	"crimeData": {
+		"population": "164,008",
+		"Aggravated_Assault": "500",
+		"Arson": "28",
+		"Burglary": "1,579",
+		"Larceny_Theft": "6,804",
+		"Motor_vehicle_theft": "550",
+		"Murder": "5",
+		"Rape": "45",
+		"Robbery": "237"
+	}
+}
+
+req - http://localhost:3000/educationData/arizona
+res:
+{
+	"educationData": {
+		"HighSchoolDiplomaOnlyPercentage": "24.4",
+		"BachelorDegreeOrHigherPercentage": "27.5",
+		"LessThanHighSchoolPercentage": "14"
+	}
+}

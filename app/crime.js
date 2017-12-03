@@ -202,7 +202,7 @@ router.get('/federalExpenses/:statename', function(req, res, next){
         outputJson.push(json);
     }
 
-    res.json(outputJson);
+    res.json(outputJson[0]);
 
 });
 });
@@ -277,10 +277,63 @@ router.get('/crimeData/:city/:state', function(req, res, next){
         };
         outputJson.push(json);
     }
-    res.json(outputJson);
+    res.json(outputJson[0]);
 
 });
 });
 
+router.get('/educationData/:state', function(req, res, next){
+
+    var outputJson = [];
+    var stateName = req.params.state;
+    
+    // Get the leaderName(s) of the given citys
+    // if you do not bind any city, it returns 10 random leaderNames
+    var query = "SELECT distinct  ?statename ?HighSchoolDiplomaOnlyPercentage ?BachelorDegreeOrHigherPercentage ?LessThanHighSchoolPercentage ?SomeCollegeOrAssociateDegreePercentage"+
+                "WHERE {"+
+                "  ?state <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12/crime#State> ."+
+                "  ?state <http://org.semweb/group12#name> ?statename ."+
+                "  ?state <http://org.semweb/group12/crime#hasCounty> ?county ."+
+                "  ?county <http://org.semweb/group12#name> ?statename."+
+                "  ?county <http://org.semweb/group12#has> ?has."+
+                "  ?has <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#HighSchoolDiplomaOnlyPercentage>."+
+                "  ?has <http://org.semweb/group12#countDecimal> ?HighSchoolDiplomaOnlyPercentage."+
+                "  ?county <http://org.semweb/group12#has> ?has1."+
+                "  ?has1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#BachelorDegreeOrHigherPercentage>."+
+                "  ?has1 <http://org.semweb/group12#countDecimal> ?BachelorDegreeOrHigherPercentage."+
+                "  ?county <http://org.semweb/group12#has> ?has2."+
+                "  ?has2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#LessThanHighSchoolPercentage>."+
+                "  ?has2 <http://org.semweb/group12#countDecimal> ?LessThanHighSchoolPercentage."+
+                "  ?county <http://org.semweb/group12#has> ?has3."+
+                "  ?has3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#SomeCollegeOrAssociateDegreePercentage>."+
+                "  ?has3 <http://org.semweb/group12#countDecimal> ?SomeCollegeOrAssociateDegreePercentage."+
+                "  ?county <http://org.semweb/group12#has> ?has3."+
+                "  ?has3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://org.semweb/group12#SomeCollegeOrAssociateDegreePercentage>."+
+                "  ?has3 <http://org.semweb/group12#countDecimal> ?SomeCollegeOrAssociateDegreePercentage."+
+                "  FILTER (lcase(?statename) = '"+stateName.toLowerCase()+"')"+
+                "}"
+
+    var client = new SparqlClient(endpoint);
+    console.log("Query to " + endpoint);
+    console.log("Query: " + query);
+    client.query(query)
+    .execute(function(error, results) {
+
+    
+
+    for(var element of results.results.bindings) {
+        var json = {
+            "educationData": {
+                "HighSchoolDiplomaOnlyPercentage" : element.HighSchoolDiplomaOnlyPercentage.value,
+                "BachelorDegreeOrHigherPercentage" : element.BachelorDegreeOrHigherPercentage.value,
+                "LessThanHighSchoolPercentage" : element.LessThanHighSchoolPercentage.value
+            }
+        };
+        outputJson.push(json);
+    }
+    res.json(outputJson[0]);
+
+});
+});
 
 module.exports = router;
