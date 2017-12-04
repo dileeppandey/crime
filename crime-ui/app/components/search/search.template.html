@@ -13,6 +13,11 @@
     .result{
         margin-top:100px;
     }
+
+    hr {
+        margin: none;
+        border: 1px solid black;
+    }
 </style>
 <!-- <div id="search-box" class="col-lg-8 col-md-8 col-sm-8 col-centered">
     <input type="search" autocomplete="off" name="search" id="search" placeholder="Search Location" />
@@ -27,15 +32,52 @@
         <i class="glyphicon glyphicon-remove"></i> No Results Found
     </div>
 
-    <div class="result">
-        <div>
-            {{fedExpense}}
+    <div class="result" ng-show="isLocAvailable">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>{{location}}</h1>
+                <h3 ng-show=isCrimeDataAvailable>Population: {{crimeData.population}}</h3>
+            </div>
         </div>
-        <div>
-            {{demography}}
+        <div class="jumbotron" ng-show=isCrimeDataAvailable>
+            <div class="container">
+                <h2>Crime</h2>  <hr />
+                <p>
+                    <h3>Aggravated Assault : {{crimeData.Aggravated_Assault}}</h3>
+                    <h3>Arson : {{crimeData.Arson}}</h3>
+                    <h3>Burglary : {{crimeData.Burglary}}</h3>
+                    <h3>Larceny Theft : {{crimeData.Larceny_Theft}}</h3>
+                    <h3>Motor Vehicle Theft : {{crimeData.Motor_vehicle_theft}}</h3>
+                    <h3>Murder : {{crimeData.Murder}}</h3>
+                    <h3>Rape : {{crimeData.Rape}}</h3>
+                    <h3>Robbery : {{crimeData.Robbery}}</h3>
+                </p>
+            </div>
         </div>
-        <div>
-            {{crimeData}}
+        <div class="jumbotron" ng-show=isFedExpenseAvailable>
+            <div class="container">
+                <h2>Demography</h2> <hr />
+                <p>
+                    <h3>Bachelor Degree Or Higher (%) : {{demography.BachelorDegreeOrHigherPercentage}}</h3>
+                    <h3>High School DiplomaOnly (%) : {{demography.HighSchoolDiplomaOnlyPercentage}} </h3>
+                    <h3>Less Than HighSchool (%) : {{demography.LessThanHighSchoolPercentage}}</h3>
+                </p>
+            </div>
+        </div>
+        <div class="jumbotron" ng-show=isDemographyAvailable>
+            <div class="container">
+                <h2>Federal Expenditure</h2> <hr />
+                <p>
+                    <h3>American Indian Education : {{fedExpense.federalExpenses.AmericanIndianEducation}}</h3>
+                    <h3>AssistanceInFederallyAffectedAreas : {{fedExpense.federalExpenses.AssistanceInFederallyAffectedAreas}}</h3>
+                    <h3>BlockGrantForSchoolImprovement : {{fedExpense.federalExpenses.BlockGrantForSchoolImprovement}}</h3>
+                    <h3>EnglishLanguageAcquisition : {{fedExpense.federalExpenses.EnglishLanguageAcquisition}}</h3>
+                    <h3>GrantsForDisadvantaged : {{fedExpense.federalExpenses.GrantsForDisadvantaged}}</h3>
+                    <h3>RehabilitationServices : {{fedExpense.federalExpenses.RehabilitationServices}}</h3>
+                    <h3>SpecialEducation : {{fedExpense.federalExpenses.SpecialEducation}}</h3>
+                    <h3>StudentFinancialAssistance : {{fedExpense.federalExpenses.StudentFinancialAssistance}}</h3>
+                </p>
+            </div>
         </div>
     </div>
 
