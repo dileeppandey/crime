@@ -6,7 +6,7 @@ var SparqlClient = require('sparql-client');
 var util = require('util');
 var endpoint = 'http://localhost:3030/crime/query';
 
-router.get('/fetch/:city', function(req, res, next){
+/*router.get('/fetch/:city', function(req, res, next){
     // var body = req.body;
     var city = req.params.city;
     console.log('got city name'+req.params.city);
@@ -26,7 +26,7 @@ router.get('/fetch/:city', function(req, res, next){
     //   process.stdout.write(util.inspect(arguments, null, 20, true)+"\n");1
     res.json(results.results.bindings);
 });
-});
+});*/
 
 router.get('/', function(req, res, next){
 	// var body = req.body;
@@ -183,20 +183,19 @@ router.get('/federalExpenses/:statename', function(req, res, next){
     client.query(query)
     .execute(function(error, results) {
 
-    
-
+    var regComma = /,/g;
     for(var element of results.results.bindings) {
         var json = {
             "state" : stateName.charAt(0).toUpperCase() + stateName.slice(1).toLowerCase(),
             "federalExpenses": {
-                "AmericanIndianEducation" : element.AmericanIndianEducation.value,
-                "AssistanceInFederallyAffectedAreas" : element.AssistanceInFederallyAffectedAreas.value,
-                "BlockGrantForSchoolImprovement" : element.BlockGrantForSchoolImprovement.value,
-                "EnglishLanguageAcquisition" : element.EnglishLanguageAcquisition.value,
-                "GrantsForDisadvantaged" : element.GrantsForDisadvantaged.value,
-                "RehabilitationServices" : element.RehabilitationServices.value,
-                "SpecialEducation" : element.SpecialEducation.value,
-                "StudentFinancialAssistance" : element.StudentFinancialAssistance.value
+                "AmericanIndianEducation" : parseInt(element.AmericanIndianEducation.value.replace(regComma, "")),
+                "AssistanceInFederallyAffectedAreas" : parseInt(element.AssistanceInFederallyAffectedAreas.value.replace(regComma, "")),
+                "BlockGrantForSchoolImprovement" : parseInt(element.BlockGrantForSchoolImprovement.value.replace(regComma, "")),
+                "EnglishLanguageAcquisition" : parseInt(element.EnglishLanguageAcquisition.value.replace(regComma, "")),
+                "GrantsForDisadvantaged" : parseInt(element.GrantsForDisadvantaged.value.replace(regComma, "")),
+                "RehabilitationServices" : parseInt(element.RehabilitationServices.value.replace(regComma, "")),
+                "SpecialEducation" : parseInt(element.SpecialEducation.value.replace(regComma, "")),
+                "StudentFinancialAssistance" : parseInt(element.StudentFinancialAssistance.value.replace(regComma, ""))
             }
         };
         outputJson.push(json);
@@ -260,19 +259,20 @@ router.get('/crimeData/:city/:state', function(req, res, next){
     .execute(function(error, results) {
 
     
+    var regComma = /,/g;
 
     for(var element of results.results.bindings) {
         var json = {
             "crimeData": {
-                "population" : element.population.value,
-                "Aggravated_Assault" : element.Aggravated_Assault.value,
-                "Arson" : element.Arson.value,
-                "Burglary" : element.Burglary.value,
-                "Larceny_Theft" : element.Larceny_Theft.value,
-                "Motor_vehicle_theft" : element.Motor_vehicle_theft.value,
-                "Murder" : element.Murder.value,
-                "Rape" : element.Rape.value,
-                "Robbery" : element.Robbery.value
+                "population" : parseInt(element.population.value.replace(regComma, "")),
+                "Aggravated_Assault" : parseInt(element.Aggravated_Assault.value.replace(regComma, "")),
+                "Arson" : parseInt(element.Arson.value.replace(regComma, "")),
+                "Burglary" : parseInt(element.Burglary.value.replace(regComma, "")),
+                "Larceny_Theft" : parseInt(element.Larceny_Theft.value.replace(regComma, "")),
+                "Motor_vehicle_theft" : parseInt(element.Motor_vehicle_theft.value.replace(regComma, "")),
+                "Murder" : parseInt(element.Murder.value.replace(regComma, "")),
+                "Rape" : parseInt(element.Rape.value.replace(regComma, "")),
+                "Robbery" : parseInt(element.Robbery.value.replace(regComma, ""))
             }
         };
         outputJson.push(json);
@@ -324,9 +324,9 @@ router.get('/educationData/:state', function(req, res, next){
     for(var element of results.results.bindings) {
         var json = {
             "educationData": {
-                "HighSchoolDiplomaOnlyPercentage" : element.HighSchoolDiplomaOnlyPercentage.value,
-                "BachelorDegreeOrHigherPercentage" : element.BachelorDegreeOrHigherPercentage.value,
-                "LessThanHighSchoolPercentage" : element.LessThanHighSchoolPercentage.value
+                "HighSchoolDiplomaOnlyPercentage" : parseFloat(element.HighSchoolDiplomaOnlyPercentage.value),
+                "BachelorDegreeOrHigherPercentage" : parseFloat(element.BachelorDegreeOrHigherPercentage.value),
+                "LessThanHighSchoolPercentage" : parseFloat(element.LessThanHighSchoolPercentage.value)
             }
         };
         outputJson.push(json);

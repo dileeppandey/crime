@@ -4,7 +4,7 @@ var port = 3000;
 var path = require('path');
 
 app.use(express.static(__dirname + '/views'));
-// var crime = require('./app/crime');
+var crime = require('./app/crime');
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -46,19 +46,19 @@ var demoData = {
     }
 };
 
-app.get('/crimedata/tempe/arizona', function(req, res) {
-    res.send(crimeData);
-});
+// app.get('/crimedata/tempe/arizona', function(req, res) {
+//     res.send(crimeData);
+// });
 
-app.get('/educationdata/arizona', function (req, res) {
-    res.send(demoData);
-});
+// app.get('/educationdata/arizona', function (req, res) {
+//     res.send(demoData);
+// });
 
-app.get('/federalexpenses/arizona', function (req, res) {
-    res.send(fedExData);
-});
+// app.get('/federalexpenses/arizona', function (req, res) {
+//     res.send(fedExData);
+// });
 
 
-// app.use('/', crime);
+app.use('/', crime);
 
 app.listen(3000);

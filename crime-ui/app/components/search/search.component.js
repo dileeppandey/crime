@@ -34,7 +34,7 @@ angular.module('search').controller('TypeaheadCtrl', ['$scope', '$http', functio
 
     // Any function returning a promise object can be used to load values asynchronously
     $scope.getLocation = function (val) {
-        return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
+        return $http.get('//maps.googleapis.com/maps/api/geocode/json?type=restaurant', {
             params: {
                 region: "us",
                 address: val,
@@ -55,6 +55,7 @@ angular.module('search').controller('TypeaheadCtrl', ['$scope', '$http', functio
         var host = 'http://localhost:3000/';
 
         $scope.location = params;
+        $scope.population = 1;
 
         //http://10.152.181.9:3000/federalExpenses/ArizoNA
         //http://10.152.181.9:3000/crimeData/tempe/arizona
@@ -82,18 +83,35 @@ angular.module('search').controller('TypeaheadCtrl', ['$scope', '$http', functio
             console.log('response.data.crimeData', response.data.crimeData);
             $scope.crimeData = response.data.crimeData;
             $scope.isCrimeDataAvailable = true;
+            $scope.totalCrime = $scope.crimeData.Aggravated_Assault + $scope.crimeData.Arson + $scope.crimeData.Burglary + $scope.crimeData.Larceny_Theft + 
+                $scope.crimeData.Motor_vehicle_theft + $scope.crimeData.Murder + $scope.crimeData.Rape + $scope.crimeData.Robbery;
+
+            $scope.population = $scope.crimeData.population;
+
+            $http.get(demoUrl).then(function (response) {
+                console.log('demo', response.data);
+                $scope.isFedExpenseAvailable = true;
+                $scope.demography = response.data.educationData;
+
+
+                $http.get(fedExpenseUrl).then(function (response) {
+                    console.log('fed', response.data);
+                    $scope.isDemographyAvailable = true;
+                    $scope.fedExpense = response.data;
+
+                    $scope.totalSpending = $scope.fedExpense.federalExpenses.AmericanIndianEducation + $scope.fedExpense.federalExpenses.AssistanceInFederallyAffectedAreas 
+                    + $scope.fedExpense.federalExpenses.BlockGrantForSchoolImprovement + $scope.fedExpense.federalExpenses.EnglishLanguageAcquisition + 
+                    $scope.fedExpense.federalExpenses.GrantsForDisadvantaged + $scope.fedExpense.federalExpenses.RehabilitationServices + $scope.fedExpense.federalExpenses.SpecialEducation + $scope.fedExpense.federalExpenses.StudentFinancialAssistance;
+                    
+                });
+
+
+            });
+            
         });
 
-        $http.get(demoUrl).then(function (response) {
-            console.log('demo', response.data);
-            $scope.isFedExpenseAvailable = true;
-            $scope.demography = response.data.educationData;
-        });
+        
 
-        $http.get(fedExpenseUrl).then(function (response) {
-            console.log('fed', response.data);
-            $scope.isDemographyAvailable = true;
-            $scope.fedExpense = response.data;
-        });
+        
     }
 }]);
